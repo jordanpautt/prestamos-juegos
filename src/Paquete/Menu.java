@@ -7,14 +7,12 @@ import java.util.Scanner;
 
 public class Menu {
 
-    Scanner sc = new Scanner(System.in);
     int op;
     ArrayList<User> user = new ArrayList<>();
     ArrayList<Game> games = new ArrayList<>();
-    boolean can;
+  
     Scanner read = new Scanner(System.in);
-    User auxClient;
-
+ 
     public Menu() {
     }
 
@@ -31,7 +29,7 @@ public class Menu {
             System.out.println("3. Modificar usuarios");
             System.out.println("12. Salir");
             System.out.print("opcion: ");
-            op = sc.nextInt();
+            op = read.nextInt();
             switch (op) {
                 case 1:
                     ingresar_usuario();
@@ -163,252 +161,9 @@ public class Menu {
             System.out.println("Juego no encontrado ");
         }
     }
-
-    /*  public void list_client_store() {
-        System.out.println("Código de tienda: ");
-        int cod = read.nextInt();
-        ArrayList<User> clientes2;
-        can = false;
-        tiendas.forEach((store) -> {
-            if (store.getCodTienda() == cod) {
-                can = true;
-                store.clientes.forEach((userData) -> {
-                    System.out.println("----------------------------");
-                    System.out.println("Nombre: " + userData.getName());
-                    System.out.println("Cédula: " + userData.getDni());
-                    System.out.println("Correo electronico: " + userData.getEmail());
-                    System.out.println("----------------------------");
-                });
-            }
-        });
-        if (!can) {
-            System.err.println("Tienda no encontrada");
-        }
-    }*/
-
- /*public void client_by_cc() {
-        System.out.println("Cédula: ");
-        int dni = read.nextInt();
-        can = false;
-        user.forEach((userData) -> {
-            if (userData.getDni() == dni) {
-                can = true;
-                System.out.println("----------------------------");
-                System.out.println("Nombre: " + t.getNombre());
-                System.out.println("Cédula: " + t.getCedula());
-
-                System.out.println("----------------------------");
-            }
-        });
-        if (!can) {
-            System.err.println("Cliente no encontrado");
-        }
-    }*/
-
- /*  public void create_a_videoGame() {
-        can = true;
-        System.out.print("\nCódigo: ");
-        int cod = read.nextInt();
-        System.out.print("Nombre: ");
-        String name = read.next();
-        System.out.print("Numero de ejemplares: ");
-        int ejemN = read.nextInt();
-        System.out.print("Código de tienda: ");
-        int codTienda = read.nextInt();
-
-        juegos.forEach((Juego t) -> {
-            if (t.getCodJuego() == cod) {
-                can = false;
-            }
-        });
-        if (can) {
-            can = false;
-            Tienda tien = new Tienda();
-            tiendas.forEach((t) -> {
-                if (t.getCodTienda() == codTienda) {
-                    can = true;
-                    juegos.add(new Juego(codTienda, name, ejemN, t));
-                    System.out.println("Juego creado con exito");
-                }
-            });
-            if (!can) {
-                System.err.println("Tienda no encontrada");
-
-            }
-        } else {
-            System.err.println("Cédula repetida");
-        }
+    
+    public void create_loan(){
+        
     }
-
-    public void list_videogame_by_store() {
-        System.out.println("Código de la tienda: ");
-        int cod = read.nextInt();
-        can = false;
-
-        tiendas.forEach((t) -> {
-            if (t.getCodTienda() == cod) {
-                can = true;
-                t.juegos.forEach((j) -> {
-                    System.out.println("----------------------------");
-                    System.out.println("Código: " + j.getCodJuego());
-                    System.out.println("Nómbre: " + j.getNomJuego());
-                    System.out.println("Numero de ejemplares: " + j.getNumEjemplar());
-                    System.out.println("----------------------------");
-                });
-            }
-        });
-        if (!can) {
-            System.err.println("Tienda no encontrada.");
-        }
-    }
-
-    public void videogame_by_cod() {
-        System.out.println("Código: ");
-        int cod = read.nextInt();
-        can = false;
-        juegos.forEach((j) -> {
-            if (j.getCodJuego() == cod) {
-                can = true;
-                System.out.println("----------------------------");
-                System.out.println("Código: " + j.getCodJuego());
-                System.out.println("Nómbre: " + j.getNomJuego());
-                System.out.println("Numero de ejemplares: " + j.getNumEjemplar());
-                System.out.println("Tienda: " + j.getTienda().getCodTienda());
-                System.out.println("----------------------------");
-            }
-        });
-        if (!can) {
-            System.err.println("Juego no encontrado");
-        }
-    }
-
-    public void rent_a_game() {
-        System.out.print("Cédula: ");
-        int cc = read.nextInt();
-        can = false;
-        clientes.forEach((Cliente t) -> {
-            if (t.getCedula() == cc) {
-                can = true;
-                auxClient = t;
-            }
-        });
-        if (can) {
-            System.out.print("Código del juego: ");
-            int cod = read.nextInt();
-            can = false;
-            juegos.forEach((j) -> {
-                if (j.getCodJuego() == cod) {
-                    j.prestamos.add(auxClient);
-                    System.out.println("Prestamo realizado");
-                }
-            });
-            if (!can) {
-                System.out.println("Juego no encontrado");
-            }
-        } else {
-            System.out.println("Usuario no encontrado");
-        }
-    }
-
-    public void list_rent_by_videogame() {
-        System.out.print("Código: ");
-        int cod = read.nextInt();
-        can = false;
-        juegos.forEach((Juego t) -> {
-            if (t.getCodJuego() == cod) {
-                can = true;
-                t.prestamos.forEach((p) -> {
-                    System.out.println("----------------------------");
-                    System.out.println("Nombre: " + p.getNombre());
-                    System.out.println("Cédula: " + p.getCedula());
-                    System.out.println("Dirección: " + p.getDireccion());
-                    System.out.println("Teléfono: " + p.getTelefono());
-                    System.out.println("Fecha de nacimiento: " + p.getFechaNac());
-                    System.out.println("----------------------------");
-                });
-            }
-        });
-        if (!can) {
-            System.err.println("Juego no encontrado");
-        }
-    }
-
-    public void list_rent_by_client() {
-        System.out.print("Cédula: ");
-        int cc = read.nextInt();
-        can = false;
-        clientes.forEach((Cliente t) -> {
-            if (t.getCedula() == cc) {
-                can = true;
-                auxClient = t;
-            }
-        });
-        if (can) {
-
-            juegos.forEach((t) -> {
-                t.prestamos.forEach((p) -> {
-                    if (p.getCedula() == cc) {
-                        System.out.println("----------------------------");
-                        System.out.println("Nombre: " + p.getNombre());
-                        System.out.println("Cédula: " + p.getCedula());
-                        System.out.println("Dirección: " + p.getDireccion());
-                        System.out.println("Teléfono: " + p.getTelefono());
-                        System.out.println("Fecha de nacimiento: " + p.getFechaNac());
-                        System.out.println("----------------------------");
-                    }
-                });
-            });
-        } else {
-            System.out.println("Usuario no encontrado");
-        }
-    }
-
-    public void create_store() {
-        System.out.print("Código: ");
-        int cod = read.nextInt();
-        System.out.print("Nombre: ");
-        String name = read.next();
-        can = true;
-        tiendas.forEach((t) -> {
-            if (t.getCodTienda() == cod) {
-                can = false;
-            }
-        });
-        if (can) {
-            System.out.println("Tienda registrada con exito");
-            tiendas.add(new Tienda(cod, name));
-        } else {
-            System.err.println("Código repetido");
-        }
-    }
-
-    public void client_to_store() {
-        System.out.print("Cédula: ");
-        int cc = read.nextInt();
-        System.out.print("Código de tienda: ");
-        int cod = read.nextInt();
-        can = false;
-        clientes.forEach((t) -> {
-            if (t.getCedula() == cc) {
-                auxClient = t;
-                can = true;
-            }
-        });
-        if (can) {
-            can = false;
-            tiendas.forEach((t) -> {
-                if (t.getCodTienda() == cod) {
-                    t.clientes.add(auxClient);
-                    can = true;
-                }
-            });
-            if (can) {
-                System.out.print("Cliente agregado");
-            } else {
-                System.out.print("Tienda no encontrada");
-            }
-        } else {
-            System.out.print("Cliente no encontrado");
-        }
-    } */
+         
 }
