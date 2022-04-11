@@ -1,8 +1,6 @@
-
 package Paquete;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Scanner;
 
 public class Menu {
@@ -10,15 +8,17 @@ public class Menu {
     int op;
     ArrayList<User> user = new ArrayList<>();
     ArrayList<Game> games = new ArrayList<>();
-  
+    ArrayList<Loan> loans = new ArrayList<>();
+
     Scanner read = new Scanner(System.in);
- 
+
     public Menu() {
     }
 
-    public Menu(ArrayList<User> user, ArrayList<Game> games) {
+    public Menu(ArrayList<User> user, ArrayList<Game> games, ArrayList<Loan> loans) {
         this.user = user;
         this.games = games;
+        this.loans = loans;
     }
 
     public void opciones() {
@@ -27,27 +27,38 @@ public class Menu {
             System.out.println("1. Registrar usuario");
             System.out.println("2. Listar usuarios");
             System.out.println("3. Modificar usuarios");
+            System.out.println("4. Registrar juegos");
+            System.out.println("5. Listar juegos");
+            System.out.println("6. Modificar juegos");
+            System.out.println("7. prestar juego");
+            System.out.println("8. Listar prestamos");
             System.out.println("12. Salir");
-            System.out.print("opcion: ");
-            op = read.nextInt();
+            System.out.print("--!!opcion: ");
+            this.op = read.nextInt();
             switch (op) {
                 case 1:
-                    ingresar_usuario();
+                    this.ingresar_usuario();
                     break;
                 case 2:
-                    list_user();
+                    this.list_user();
                     break;
                 case 3:
-                    update_user();
+                    this.update_user();
                     break;
-                 case 4:
-                    ingresar_game();
+                case 4:
+                    this.ingresar_game();
                     break;
                 case 5:
-                    list_game();
+                    this.list_game();
                     break;
                 case 6:
-                    update_game();
+                    this.update_game();
+                    break;
+                case 7:
+                    this.create_loan();
+                    break;
+                case 8:
+                    this.list_loan();
                     break;
             }
         } while (op != 12);
@@ -66,10 +77,10 @@ public class Menu {
 
     public void list_user() {
         System.out.println("--List Users----\n[");
-        user.forEach((userData) -> {
+        this.user.forEach((userData) -> {
             System.out.println(" Nombre: " + userData.getName());
             System.out.println(" Cédula: " + userData.getDni());
-            System.out.println(" Correo electronico: " + userData.getEmail() + "\n ------ \n");
+            System.out.println(" Correo electronico: " + userData.getEmail() + "\n,");
         });
         System.out.println("]\n---------------------");
     }
@@ -84,10 +95,10 @@ public class Menu {
 
         User userAdd = find_user(dni);
         if (userAdd == null) {
-            user.add(new User(dni, name, email));
+            this.user.add(new User(dni, name, email));
             System.out.println("Usuario creado con exito");
         } else {
-            System.err.println("Cédula repetida");
+            System.err.println("\nERROR!! Cédula repetida\n");
         }
     }
 
@@ -105,7 +116,7 @@ public class Menu {
             userUpdate.setName(nameUser);
             userUpdate.setEmail(emailUser);
         } else {
-            System.out.println("Usuario no encontrado ");
+            System.out.println("\nERROR!! Usuario no encontrado ");
         }
     }
 
@@ -120,11 +131,11 @@ public class Menu {
     }
 
     public void list_game() {
-        System.out.println("--List Games----\n[");
+        System.out.println("--Listar juegos----\n[");
         games.forEach((gameData) -> {
             System.out.println(" Codigo de juego: " + gameData.getCodGame());
             System.out.println(" Codigo de ejemplar: " + gameData.getCodEjem());
-            System.out.println(" Nombre juego: " + gameData.getName() + "\n ------ \n");
+            System.out.println(" Nombre juego: " + gameData.getName() + "\n,");
         });
         System.out.println("]\n---------------------");
     }
@@ -142,7 +153,7 @@ public class Menu {
             games.add(new Game(name, codGame, codEjem));
             System.out.println("Juego creado con exito");
         } else {
-            System.err.println("Juego repetido");
+            System.err.println("\nERROR!! Juego repetido\n");
         }
     }
 
@@ -155,15 +166,57 @@ public class Menu {
         if (gameUpdate != null) {
             System.out.print("Nuevo nombre: ");
             String nameUser = read.next();
-           
             gameUpdate.setName(nameUser);
         } else {
-            System.out.println("Juego no encontrado ");
+            System.out.println("\nERROR!! Juego no encontrado ");
         }
     }
-    
-    public void create_loan(){
-        
+
+    public Boolean find_game_loan(int codGame) {
+        Boolean sw = false;
+        for (Loan loanData : this.loans) {
+            if (loanData.getCodeGame() == codGame) {
+                sw = true;
+            }
+        }
+        return sw;
     }
-         
+
+    public void create_loan() {
+        System.out.println("--Prestar juego--");
+        System.out.print("Cedula del usuario: ");
+        int dni = read.nextInt();
+        if (this.find_user(dni) == null) {
+            System.out.println("\nERROR!! El usuario no existe en el sistema\n");
+            return;
+        }
+        System.out.print("Codigo del juego: ");
+        int codGame = read.nextInt();
+        if (this.find_game(codGame) == null) {
+            System.out.println("\nERROR!! El juego no existe en el sistema\n");
+            return;
+        } else {
+            if (this.find_game_loan(codGame)) {
+                System.out.println("\nERROR!! El juego ya esta prestado\n");
+                return;
+            }
+        }
+        System.out.print("Fecha del prestamo: ");
+        String date = read.next();
+
+        this.loans.add(new Loan(this.loans.size() + 1, codGame, dni, date));
+        System.out.println("Prestamo creado con exito");
+    }
+
+    public void list_loan() {
+        System.out.println("--Lista de prestamos----\n[");
+        this.loans.forEach((loanData) -> {
+            System.out.println(" Codigo de prestamo: " + loanData.getCodeLoan());
+            System.out.println(" Codigo de usuario: " + loanData.getCodeuser());
+            System.out.println(" Codigo de juego: " + loanData.getCodeGame());
+            System.out.println(" Fecha de prestamo: " + loanData.getDate() + "\n,");
+        });
+        System.out.println("]\n---------------------");
+    }
+
 }

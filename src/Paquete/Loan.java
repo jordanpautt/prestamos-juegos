@@ -7,13 +7,13 @@ public class Loan {
     private int codeLoan;
     private int codeGame;
     private int codeuser;
-    private Date date;
+    private String date;
 
     public Loan (){
         
     }
     
-    public Loan(int codeLoan, int codeGame, int codeuser, Date date) {
+    public Loan(int codeLoan, int codeGame, int codeuser, String date) {
         this.codeLoan = codeLoan;
         this.codeGame = codeGame;
         this.codeuser = codeuser;
@@ -44,11 +44,11 @@ public class Loan {
         this.codeuser = codeuser;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 }
