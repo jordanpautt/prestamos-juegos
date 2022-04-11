@@ -32,6 +32,7 @@ public class Menu {
             System.out.println("6. Modificar juegos");
             System.out.println("7. prestar juego");
             System.out.println("8. Listar prestamos");
+            System.out.println("9. Devolver juego");
             System.out.println("12. Salir");
             System.out.print("--!!opcion: ");
             this.op = read.nextInt();
@@ -59,6 +60,9 @@ public class Menu {
                     break;
                 case 8:
                     this.list_loan();
+                    break;
+                case 9:
+                    this.remove_game_loan();
                     break;
             }
         } while (op != 12);
@@ -172,14 +176,14 @@ public class Menu {
         }
     }
 
-    public Boolean find_game_loan(int codGame) {
-        Boolean sw = false;
+    public Loan find_game_loan(int codGame) {
+        Loan loanFind = null;
         for (Loan loanData : this.loans) {
             if (loanData.getCodeGame() == codGame) {
-                sw = true;
+                loanFind = loanData;
             }
         }
-        return sw;
+        return loanFind;
     }
 
     public void create_loan() {
@@ -196,7 +200,7 @@ public class Menu {
             System.out.println("\nERROR!! El juego no existe en el sistema\n");
             return;
         } else {
-            if (this.find_game_loan(codGame)) {
+            if (this.find_game_loan(codGame) != null) {
                 System.out.println("\nERROR!! El juego ya esta prestado\n");
                 return;
             }
@@ -217,6 +221,20 @@ public class Menu {
             System.out.println(" Fecha de prestamo: " + loanData.getDate() + "\n,");
         });
         System.out.println("]\n---------------------");
+    }
+
+    public void remove_game_loan() {
+        System.out.println("---Devolver juego prestado--");
+        System.out.print("Codigo del juego: ");
+        int codGame = read.nextInt();
+        Loan loanGame = this.find_game_loan(codGame);
+        if (loanGame == null) {
+            System.out.println("\nERROR!! El juego no esta prestado\n");
+            return;
+        } else {
+            this.loans.remove(loanGame);
+            System.out.println("Juego entregado con exito");
+        }
     }
 
 }
